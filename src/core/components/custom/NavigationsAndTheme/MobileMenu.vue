@@ -7,7 +7,7 @@ import { Button } from '@/core/components/ui/button'
 <template>
   <nav
     id="mobile-menu"
-    class="fixed inset-x-0 top-0 z-40 transition-transform translate-y-0 lg:-translate-y-full"
+    class="fixed inset-x-0 top-0 z-40 transition-transform translate-y-0"
     aria-label="MobileMenu"
   >
     <div

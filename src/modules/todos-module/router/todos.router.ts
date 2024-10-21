@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router'
-import Home from '@/modules/home-module/views/HomeView.vue'
+import TodosView from '@/modules/todos-module/views/TodosView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: Home,
+    component: TodosView,
   },
 ]
 

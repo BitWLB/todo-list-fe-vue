@@ -6,7 +6,9 @@ import NavigationApp from '@/core/components/custom/NavigationsAndTheme/Navigati
 <template>
   <NavigationApp>
     <template #content>
-      <RouterView />
+      <div class="p-4">
+        <RouterView />
+      </div>
     </template>
   </NavigationApp>
 </template>
