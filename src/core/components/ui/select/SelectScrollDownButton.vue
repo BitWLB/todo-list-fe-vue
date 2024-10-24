@@ -25,7 +25,10 @@ const forwardedProps = useForwardProps(delegatedProps)
   <SelectScrollDownButton
     v-bind="forwardedProps"
     :class="
-      cn('flex cursor-default items-center justify-center py-1', props.class)
+      cn(
+        'flex cursor-default text-text items-center justify-center py-1 font-base',
+        props.class,
+      )
     "
   >
     <slot>

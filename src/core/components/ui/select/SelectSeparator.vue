@@ -17,6 +17,6 @@ const delegatedProps = computed(() => {
 <template>
   <SelectSeparator
     v-bind="delegatedProps"
-    :class="cn('-mx-1 my-1 h-px bg-muted', props.class)"
+    :class="cn('-mx-1 my-1 h-px bg-border dark:border-darkBorder', props.class)"
   />
 </template>

@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import TodosDialog from '@/modules/todos-module/components/TodosDialog.vue'
 import TodosCard from '@/modules/todos-module/components/TodosCard.vue'
+import { Calendar } from '@/core/components/ui/calendar'
+import {
+  type DateValue,
+  getLocalTimeZone,
+  today,
+} from '@internationalized/date'
+import { type Ref, ref } from 'vue'
+
+const value = ref(today(getLocalTimeZone())) as Ref<DateValue>
 </script>
 
 <template>
+  <!--
   <div
     class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 justify-between"
   >
@@ -27,4 +37,10 @@ import TodosCard from '@/modules/todos-module/components/TodosCard.vue'
       <TodosCard />
     </div>
   </div>
+  -->
+  <Calendar
+    v-model="value"
+    :weekday-format="'short'"
+    class="rounded-md border"
+  />
 </template>
