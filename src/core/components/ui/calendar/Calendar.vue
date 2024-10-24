@@ -39,7 +39,12 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
 <template>
   <CalendarRoot
     v-slot="{ grid, weekDays }"
-    :class="cn('p-3', props.class)"
+    :class="
+      cn(
+        '!rounded-base border-2 border-border dark:border-darkBorder bg-main p-3 font-bold shadow-light dark:shadow-dark w-[300px]',
+        props.class,
+      )
+    "
     v-bind="forwarded"
   >
     <CalendarHeader>
@@ -48,7 +53,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       <CalendarNextButton />
     </CalendarHeader>
 
-    <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+    <div class="flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0">
       <CalendarGrid v-for="month in grid" :key="month.value.toString()">
         <CalendarGridHead>
           <CalendarGridRow>
@@ -61,7 +66,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
           <CalendarGridRow
             v-for="(weekDates, index) in month.rows"
             :key="`weekDate-${index}`"
-            class="mt-2 w-full"
+            class="flex mt-2 w-full"
           >
             <CalendarCell
               v-for="weekDate in weekDates"

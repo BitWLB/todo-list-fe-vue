@@ -25,17 +25,17 @@ const forwardedProps = useForwardProps(delegatedProps)
   <CalendarCellTrigger
     :class="
       cn(
-        buttonVariants({ variant: 'ghost' }),
-        'h-9 w-9 p-0 font-normal',
-        '[&[data-today]:not([data-selected])]:bg-accent [&[data-today]:not([data-selected])]:text-accent-foreground',
+        buttonVariants({ variant: 'noShadow' }),
+        'h-9 w-9 p-0 font-base',
+        '[&[data-today]:not([data-selected])]:bg-white [&[data-today]:not([data-selected])]:text-text [&[data-today]:not([data-selected])]:dark:bg-secondaryBlack [&[data-today]:not([data-selected])]:dark:text-darkText',
         // Selected
-        'data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[selected]:opacity-100 data-[selected]:hover:bg-primary data-[selected]:hover:text-primary-foreground data-[selected]:focus:bg-primary data-[selected]:focus:text-primary-foreground',
+        'data-[selected]:!bg-black data-[selected]:text-white data-[selected]:rounded-base',
         // Disabled
-        'data-[disabled]:text-muted-foreground data-[disabled]:opacity-50',
+        'data-[disabled]:text-black data-[disabled]:opacity-50 data-[disabled]:rounded-base',
         // Unavailable
-        'data-[unavailable]:text-destructive-foreground data-[unavailable]:line-through',
+        'data-[unavailable]:invisible',
         // Outside months
-        'data-[outside-view]:text-muted-foreground data-[outside-view]:opacity-50 [&[data-outside-view][data-selected]]:bg-accent/50 [&[data-outside-view][data-selected]]:text-muted-foreground [&[data-outside-view][data-selected]]:opacity-30',
+        'data-[outside-view]:day-outside data-[outside-view]:text-black data-[outside-view]:opacity-50 [&[data-outside-view][data-selected]]:bg-none',
         props.class,
       )
     "

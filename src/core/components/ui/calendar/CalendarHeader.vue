@@ -23,7 +23,10 @@ const forwardedProps = useForwardProps(delegatedProps)
 <template>
   <CalendarHeader
     :class="
-      cn('relative flex w-full items-center justify-between pt-1', props.class)
+      cn(
+        'flex justify-between text-text pt-1 relative items-center',
+        props.class,
+      )
     "
     v-bind="forwardedProps"
   >

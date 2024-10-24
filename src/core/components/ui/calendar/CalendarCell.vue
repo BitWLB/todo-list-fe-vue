@@ -24,7 +24,7 @@ const forwardedProps = useForwardProps(delegatedProps)
   <CalendarCell
     :class="
       cn(
-        'relative h-9 w-9 p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([data-selected])]:rounded-md [&:has([data-selected])]:bg-accent [&:has([data-selected][data-outside-view])]:bg-accent/50',
+        'h-9 w-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20 [&:has([data-selected])]:bg-white [&:has([data-selected])]:rounded-base [&:has([data-selected][data-outside-view])]:bg-white',
         props.class,
       )
     "
