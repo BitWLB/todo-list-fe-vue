@@ -27,7 +27,7 @@ const forwardedProps = useForwardProps(delegatedProps)
       cn(
         buttonVariants({ variant: 'noShadow' }),
         'h-9 w-9 p-0 font-base',
-        '[&[data-today]:not([data-selected])]:bg-white [&[data-today]:not([data-selected])]:text-text [&[data-today]:not([data-selected])]:dark:bg-secondaryBlack [&[data-today]:not([data-selected])]:dark:text-darkText',
+        '[&[data-today]:not([data-selected])]:bg-white [&[data-today]:not([data-selected])]:text-text',
         // Selected
         'data-[selected]:!bg-black data-[selected]:text-white data-[selected]:rounded-base',
         // Disabled
