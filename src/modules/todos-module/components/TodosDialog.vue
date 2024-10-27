@@ -35,10 +35,15 @@ import { Input } from '@/core/components/ui/input'
 import { vAutoAnimate } from '@formkit/auto-animate/vue'
 import { Icon } from '@iconify/vue'
 import { useTodosStore } from '@/modules/todos-module/store/todosStore'
+import { useToastStore } from '@/core/stores/toastStore'
+import type { ToastItem } from '@/core/interfaces/toastItem'
 
 const todosStore = useTodosStore()
 const { dialogTodos, isEdit, form } = toRefs(todosStore)
 const { setDialog, submitForm, todosPriorities } = todosStore
+
+const toastStore = useToastStore()
+const { triggerToast } = toastStore
 
 const formSchema = toTypedSchema(
   z.object({
@@ -88,7 +93,26 @@ watch(
 const onSubmit = handleSubmit(async values => {
   try {
     await submitForm(values)
+
+    const dataToast: ToastItem = {
+      title: 'Success submitted the following values',
+      description: values.title,
+      variant: 'default',
+    }
+
+    triggerToast(dataToast)
   } catch (error) {
+    const errorMessage =
+      (error as { description?: string })?.description ||
+      'An unexpected error occurred'
+
+    const dataToast: ToastItem = {
+      title: 'Failed to submit',
+      description: errorMessage,
+      variant: 'destructive',
+    }
+
+    triggerToast(dataToast)
     console.error('Failed to submit:', error)
   } finally {
     setDialog(false)

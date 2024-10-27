@@ -24,7 +24,7 @@ export const useTodosStore = defineStore('todos', () => {
     }
   }
 
-  async function submitForm(updatedValues: TodosForm): Promise<void> {
+  async function submitForm(value: TodosForm): Promise<void> {
     try {
       if (isEdit.value) {
         // todo startt -- custom with api
@@ -36,19 +36,17 @@ export const useTodosStore = defineStore('todos', () => {
         if (todoIndex !== -1) {
           dataTodos.value[todoIndex] = {
             ...dataTodos.value[todoIndex],
-            ...updatedValues,
+            ...value,
           }
         } else {
           console.error(
             `Todo with ID ${idTodoEdit.value} not found for editing.`,
           )
         }
-        // todo end -- custom with api
       } else {
-        // todo startt -- custom with api
         const newTodo: TodosItem = {
           id: ++idDummy.value,
-          ...updatedValues,
+          ...value,
         }
         await new Promise(resolve => setTimeout(resolve, 1000))
         dataTodos.value.push(newTodo)
@@ -74,7 +72,7 @@ export const useTodosStore = defineStore('todos', () => {
         idTodoEdit.value = todo.id
         form.value = { ...todo }
       } else {
-        console.warn(`Todo with ID ${todoId} not found.`)
+        console.error(`Todo with ID ${todoId} not found.`)
         clearForm()
       }
       // todo end -- custom with api
@@ -83,16 +81,16 @@ export const useTodosStore = defineStore('todos', () => {
     }
   }
 
-  async function removeTodo(todoId: number): Promise<void> {
+  async function removeTodo(todo: TodosItem): Promise<void> {
     try {
       // todo startt -- custom with api
-      const index = dataTodos.value.findIndex(todo => todo.id === todoId)
+      const index = dataTodos.value.findIndex(todo => !Number.isNaN(todo.id))
       await new Promise(resolve => setTimeout(resolve, 1000))
 
       if (index !== -1) {
         dataTodos.value.splice(index, 1)
       } else {
-        console.warn(`Todo with ID ${todoId} not found.`)
+        console.error(`Todo with ID ${todo.id} not found.`)
       }
       // todo end -- custom with api
     } catch (error) {
@@ -101,13 +99,11 @@ export const useTodosStore = defineStore('todos', () => {
   }
 
   return {
-    // vars
     dialogTodos,
     isEdit,
     form,
     todosPriorities,
     dataTodos,
-    // func
     setDialog,
     submitForm,
     fetchTodoDetailsWithId,
