@@ -108,9 +108,9 @@ watch([selectedMonth, selectedYear], ([newMonth, newYear]) => {
         <Select
           v-model="selectedMonth"
           @update:model-value="
-            v => {
+            (v: string) => {
               if (placeholder) {
-                placeholder = placeholder.set({ month: Number(v) })
+                placeholder.value = placeholder.value.set({ month: Number(v) })
               }
             }
           "
@@ -132,9 +132,9 @@ watch([selectedMonth, selectedYear], ([newMonth, newYear]) => {
         <Select
           v-model="selectedYear"
           @update:model-value="
-            v => {
+            (v: string) => {
               if (placeholder) {
-                placeholder = placeholder.set({ year: Number(v) })
+                placeholder.value = placeholder.value.set({ year: Number(v) })
               }
             }
           "

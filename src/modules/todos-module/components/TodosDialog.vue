@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { toRefs, watch } from 'vue'
+import * as z from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm } from 'vee-validate'
 import {
   Dialog,
-  DialogContent,
+  DialogScrollContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -9,13 +13,95 @@ import {
   DialogTrigger,
 } from '@/core/components/ui/dialog'
 import { Button } from '@/core/components/ui/button'
-import { Icon } from '@iconify/vue'
-import { Label } from '@/core/components/ui/label'
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/core/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/core/components/ui/select'
+import { Textarea } from '@/core/components/ui/textarea'
 import { Input } from '@/core/components/ui/input'
+import { vAutoAnimate } from '@formkit/auto-animate/vue'
+import { Icon } from '@iconify/vue'
+import { useTodosStore } from '@/modules/todos-module/store/todosStore'
+
+const todosStore = useTodosStore()
+const { dialogTodos, isEdit, form } = toRefs(todosStore)
+const { setDialog, submitForm, todosPriorities } = todosStore
+
+const formSchema = toTypedSchema(
+  z.object({
+    title: z
+      .string({
+        required_error: 'Title is required',
+      })
+      .min(5, {
+        message: 'Title must be at least 5 characters.',
+      })
+      .max(30, {
+        message: 'Title must not be longer than 30 characters.',
+      }),
+    priority: z.string({
+      required_error: 'Priority is required',
+    }),
+    description: z
+      .string({
+        required_error: 'Description is required',
+      })
+      .min(10, {
+        message: 'Description must be at least 10 characters.',
+      })
+      .max(200, {
+        message: 'Description must not be longer than 200 characters.',
+      }),
+  }),
+)
+
+const { isFieldDirty, handleSubmit, setValues, resetForm } = useForm({
+  validationSchema: formSchema,
+  initialValues: form.value,
+})
+
+watch(
+  () => form.value,
+  newValue => {
+    if (newValue) {
+      setValues(newValue)
+    } else {
+      resetForm()
+    }
+  },
+  { deep: true },
+)
+
+const onSubmit = handleSubmit(async values => {
+  try {
+    await submitForm(values)
+  } catch (error) {
+    console.error('Failed to submit:', error)
+  } finally {
+    setDialog(false)
+  }
+})
+
+function handleDialog(value: boolean) {
+  setDialog(value)
+}
 </script>
 
 <template>
-  <Dialog>
+  <Dialog :open="dialogTodos" @update:open="handleDialog">
     <DialogTrigger as-child>
       <Button variant="default" class="space-x-2 justify-center">
         <Icon icon="ci:list-add" class="h-5 w-5" />
@@ -24,29 +110,101 @@ import { Input } from '@/core/components/ui/input'
       </Button>
     </DialogTrigger>
 
-    <DialogContent class="sm:max-w-[425px]">
+    <DialogScrollContent class="sm:max-w-[450px] space-y-4">
       <DialogHeader>
-        <DialogTitle> Add Todo </DialogTitle>
+        <DialogTitle> {{ isEdit ? `Edit` : `Add` }} Todo </DialogTitle>
 
         <DialogDescription>
-          Add your todo list here. Click save when you're done.
+          {{ isEdit ? `Edit` : `Add` }} your todo list here. Click save when
+          you're done.
         </DialogDescription>
       </DialogHeader>
 
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="name" class="text-right"> Name </Label>
-          <Input id="name" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="username" class="text-right"> Username </Label>
-          <Input id="username" class="col-span-3" />
-        </div>
-      </div>
+      <form class="w-full space-y-6" @submit="onSubmit">
+        <FormField
+          v-slot="{ componentField }"
+          name="title"
+          :validate-on-blur="!isFieldDirty"
+        >
+          <FormItem v-auto-animate>
+            <FormLabel> Title </FormLabel>
 
-      <DialogFooter>
-        <Button type="submit"> Save </Button>
-      </DialogFooter>
-    </DialogContent>
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Do homework"
+                v-bind="componentField"
+              />
+            </FormControl>
+
+            <FormDescription> Type in the title of the todo. </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField
+          v-slot="{ componentField }"
+          name="priority"
+          :validate-on-blur="!isFieldDirty"
+        >
+          <FormItem v-auto-animate>
+            <FormLabel>Priority</FormLabel>
+
+            <FormControl>
+              <Select v-bind="componentField">
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a Priority" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>List Priority</SelectLabel>
+                    <SelectItem
+                      v-for="data in todosPriorities"
+                      :key="data.id"
+                      :value="String(data.id)"
+                    >
+                      {{ data.description }}
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormControl>
+
+            <FormDescription>
+              Select one from the list of available priorities.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField
+          v-slot="{ componentField }"
+          name="description"
+          :validate-on-blur="!isFieldDirty"
+        >
+          <FormItem>
+            <FormLabel>Description</FormLabel>
+
+            <FormControl>
+              <Textarea
+                placeholder="Do mathematics homework"
+                class="resize-y max-h-60"
+                v-bind="componentField"
+              />
+            </FormControl>
+
+            <FormDescription>
+              Type in the description of the todo
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <DialogFooter>
+          <Button type="submit"> Save </Button>
+        </DialogFooter>
+      </form>
+    </DialogScrollContent>
   </Dialog>
 </template>
