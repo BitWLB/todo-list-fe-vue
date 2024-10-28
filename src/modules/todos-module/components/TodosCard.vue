@@ -19,22 +19,22 @@ defineProps<{
 
 const todosStore = useTodosStore()
 const { todosPriorities } = toRefs(todosStore)
-const { setDialog, fetchTodoDetailsWithId, removeTodo } = todosStore
+const { setDialog, fetchTodoDetailsWithId, deleteTodo } = todosStore
 
-async function handleDialog(value: boolean, id: number) {
-  await fetchTodoDetailsWithId(id)
-  setDialog(value, true)
+async function handleDialog(isOpen: boolean, id: number) {
+  await fetchTodoDetailsWithId(id, true)
+  setDialog(isOpen, true)
 }
 
-async function handleRemove(todo: TodosItem) {
-  await removeTodo(todo)
+async function handleDelete(todo: TodosItem) {
+  await deleteTodo(todo)
 }
 </script>
 
 <template>
   <Card class="flex flex-col h-full w-full">
     <CardHeader>
-      <CardTitle class="text-xl md:text-3xl capitalize text-wrap">
+      <CardTitle class="text-xl lg:text-2xl capitalize text-wrap">
         {{ todosItem.title }}
       </CardTitle>
 
@@ -55,10 +55,10 @@ async function handleRemove(todo: TodosItem) {
     </CardContent>
 
     <CardFooter class="flex items-end justify-end space-x-4 px-6 pb-6">
-      <Button variant="neutral" @click="handleRemove(todosItem)">
-        Remove
+      <Button variant="neutral" @click="handleDelete(todosItem)">
+        Delete
       </Button>
-      <Button @click="handleDialog(true, todosItem.id)"> Edit </Button>
+      <Button @click="handleDialog(true, todosItem.id)"> Update </Button>
     </CardFooter>
   </Card>
 </template>

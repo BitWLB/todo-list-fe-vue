@@ -51,7 +51,7 @@ export const useToastStore = defineStore('toast', () => {
         { class: 'mt-2 w-[340px] rounded-md bg-secondaryWhite p-4' },
         h(
           'code',
-          { class: 'text-white text-wrap' },
+          { class: 'text-text text-wrap' },
           JSON.stringify(
             {
               error: message,

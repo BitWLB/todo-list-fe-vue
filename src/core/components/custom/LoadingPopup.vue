@@ -2,6 +2,9 @@
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from '@/core/components/ui/alert-dialog'
 import { useLoadingStore } from '@/core/stores/loadingStore'
 import { toRefs } from 'vue'
@@ -14,15 +17,17 @@ const { isLoading } = toRefs(loadingStore)
 <template>
   <AlertDialog :open="isLoading">
     <AlertDialogContent class="w-11/12 sm:max-w-[450px]">
-      <div class="flex flex-row items-center justify-center">
-        <LoadingSVG />
+      <AlertDialogHeader class="flex flex-row items-center justify-center">
+        <AlertDialogTitle>
+          <LoadingSVG />
+        </AlertDialogTitle>
 
-        <p
+        <AlertDialogDescription
           class="text-2xl md:text-5xl font-semibold text-text dark:text-darkText"
         >
           Loading...
-        </p>
-      </div>
+        </AlertDialogDescription>
+      </AlertDialogHeader>
     </AlertDialogContent>
   </AlertDialog>
 </template>

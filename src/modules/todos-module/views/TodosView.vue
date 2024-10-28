@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { onMounted, toRefs } from 'vue'
 import { useTodosStore } from '@/modules/todos-module/store/todosStore'
 import TodosDialog from '@/modules/todos-module/components/TodosDialog.vue'
 import TodosCard from '@/modules/todos-module/components/TodosCard.vue'
 
-const portfolioStore = useTodosStore()
-const { dataTodos } = toRefs(portfolioStore)
+const todosStore = useTodosStore()
+const { dataTodos } = toRefs(todosStore)
+const { fetchAllTodos } = todosStore
+
+onMounted(async () => {
+  await Promise.all([fetchAllTodos()])
+})
 </script>
 
 <template>
