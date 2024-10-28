@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useToast } from '@/core/components/ui/toast/use-toast'
 import type { ToastItem } from '@/core/interfaces/toastItem'
+import { h } from 'vue'
 
 const { toast } = useToast()
 
@@ -21,7 +22,21 @@ export const useToastStore = defineStore('toast', () => {
   ) {
     const dataToast: ToastItem = {
       title: `Success to ${action} ${module} item`,
-      description: message,
+      description: h(
+        'pre',
+        { class: 'mt-2 w-[340px] rounded-md bg-darkBg p-4' },
+        h(
+          'code',
+          { class: 'text-white text-wrap' },
+          JSON.stringify(
+            {
+              data: message,
+            },
+            null,
+            2,
+          ),
+        ),
+      ),
       variant: 'default',
     }
 
@@ -31,7 +46,21 @@ export const useToastStore = defineStore('toast', () => {
   function triggerToastFailed(action: string, module: string, message: string) {
     const dataToast: ToastItem = {
       title: `Failed to ${action} ${module} item`,
-      description: message,
+      description: h(
+        'pre',
+        { class: 'mt-2 w-[340px] rounded-md bg-secondaryWhite p-4' },
+        h(
+          'code',
+          { class: 'text-white text-wrap' },
+          JSON.stringify(
+            {
+              error: message,
+            },
+            null,
+            2,
+          ),
+        ),
+      ),
       variant: 'destructive',
     }
 

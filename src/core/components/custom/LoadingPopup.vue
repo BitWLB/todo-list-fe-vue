@@ -13,11 +13,13 @@ const { isLoading } = toRefs(loadingStore)
 
 <template>
   <AlertDialog :open="isLoading">
-    <AlertDialogContent>
+    <AlertDialogContent class="w-11/12 sm:max-w-[450px]">
       <div class="flex flex-row items-center justify-center">
         <LoadingSVG />
 
-        <p class="text-5xl font-semibold text-text dark:text-darkText">
+        <p
+          class="text-2xl md:text-5xl font-semibold text-text dark:text-darkText"
+        >
           Loading...
         </p>
       </div>

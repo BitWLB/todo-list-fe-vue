@@ -34,7 +34,7 @@ async function handleRemove(todo: TodosItem) {
 <template>
   <Card class="flex flex-col h-full w-full">
     <CardHeader>
-      <CardTitle class="text-3xl capitalize">
+      <CardTitle class="text-xl md:text-3xl capitalize text-wrap">
         {{ todosItem.title }}
       </CardTitle>
 

@@ -43,8 +43,8 @@
 </template>
 <style scoped>
 svg {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   display: inline-block;
 }
 </style>

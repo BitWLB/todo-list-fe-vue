@@ -77,13 +77,13 @@ function handleDialog(value: boolean) {
       </Button>
     </DialogTrigger>
 
-    <DialogScrollContent class="sm:max-w-[450px] space-y-4">
+    <DialogScrollContent class="w-11/12 sm:max-w-[450px] space-y-4">
       <DialogHeader>
         <DialogTitle> {{ isEdit ? `Edit` : `Add` }} Todo </DialogTitle>
 
         <DialogDescription>
-          {{ isEdit ? `Edit` : `Add` }} your todo list here. Click save when
-          you're done.
+          {{ isEdit ? `Edit` : `Add` }} your todo here. Click save when you're
+          done.
         </DialogDescription>
       </DialogHeader>
 
