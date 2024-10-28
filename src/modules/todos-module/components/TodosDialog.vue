@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { toRefs, watch } from 'vue'
-import * as z from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import {
@@ -35,46 +34,14 @@ import { Input } from '@/core/components/ui/input'
 import { vAutoAnimate } from '@formkit/auto-animate/vue'
 import { Icon } from '@iconify/vue'
 import { useTodosStore } from '@/modules/todos-module/store/todosStore'
-import { useToastStore } from '@/core/stores/toastStore'
-import type { ToastItem } from '@/core/interfaces/toastItem'
+import { todoFormSchema } from '@/modules/todos-module/schema/todosSchema'
 
 const todosStore = useTodosStore()
 const { dialogTodos, isEdit, form } = toRefs(todosStore)
 const { setDialog, submitForm, todosPriorities } = todosStore
 
-const toastStore = useToastStore()
-const { triggerToast } = toastStore
-
-const formSchema = toTypedSchema(
-  z.object({
-    title: z
-      .string({
-        required_error: 'Title is required',
-      })
-      .min(5, {
-        message: 'Title must be at least 5 characters.',
-      })
-      .max(30, {
-        message: 'Title must not be longer than 30 characters.',
-      }),
-    priority: z.string({
-      required_error: 'Priority is required',
-    }),
-    description: z
-      .string({
-        required_error: 'Description is required',
-      })
-      .min(10, {
-        message: 'Description must be at least 10 characters.',
-      })
-      .max(200, {
-        message: 'Description must not be longer than 200 characters.',
-      }),
-  }),
-)
-
 const { isFieldDirty, handleSubmit, setValues, resetForm } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(todoFormSchema),
   initialValues: form.value,
 })
 
@@ -91,32 +58,8 @@ watch(
 )
 
 const onSubmit = handleSubmit(async values => {
-  try {
-    await submitForm(values)
-
-    const dataToast: ToastItem = {
-      title: 'Success submitted the following values',
-      description: values.title,
-      variant: 'default',
-    }
-
-    triggerToast(dataToast)
-  } catch (error) {
-    const errorMessage =
-      (error as { description?: string })?.description ||
-      'An unexpected error occurred'
-
-    const dataToast: ToastItem = {
-      title: 'Failed to submit',
-      description: errorMessage,
-      variant: 'destructive',
-    }
-
-    triggerToast(dataToast)
-    console.error('Failed to submit:', error)
-  } finally {
-    setDialog(false)
-  }
+  await submitForm(values)
+  setDialog(false)
 })
 
 function handleDialog(value: boolean) {

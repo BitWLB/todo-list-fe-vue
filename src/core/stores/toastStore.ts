@@ -14,7 +14,32 @@ export const useToastStore = defineStore('toast', () => {
     })
   }
 
+  function triggerToastSuccess(
+    action: string,
+    module: string,
+    message: string,
+  ) {
+    const dataToast: ToastItem = {
+      title: `Success to ${action} ${module} item`,
+      description: message,
+      variant: 'default',
+    }
+
+    triggerToast(dataToast)
+  }
+
+  function triggerToastFailed(action: string, module: string, message: string) {
+    const dataToast: ToastItem = {
+      title: `Failed to ${action} ${module} item`,
+      description: message,
+      variant: 'destructive',
+    }
+
+    triggerToast(dataToast)
+  }
+
   return {
-    triggerToast,
+    triggerToastSuccess,
+    triggerToastFailed,
   }
 })

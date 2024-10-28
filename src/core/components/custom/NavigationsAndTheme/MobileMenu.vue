@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import LogoSVG from '@/core/components/custom/icon/LogoSVG.vue'
+</script>
+
 <template>
   <nav
     id="mobile-menu"
@@ -8,7 +12,7 @@
       class="flex flex-row items-center h-16 justify-between w-full px-4 border-4 rounded-b-base bg-secondaryWhite dark:bg-secondaryBlack"
     >
       <div class="space-x-2">
-        <!-- todo logo app -->
+        <LogoSVG />
       </div>
 
       <slot name="mobile-menu-center-items" />

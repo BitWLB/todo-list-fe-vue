@@ -14,7 +14,7 @@ const { dataTodos } = toRefs(portfolioStore)
   >
     <div>
       <p
-        class="text-2xl md:text-3xl font-bold text-mainAccent drop-shadow-[1.5px_1.5px_var(--tw-shadow-color)] shadow-darkBg"
+        class="text-2xl md:text-3xl font-bold text-main drop-shadow-[1.5px_1.5px_var(--tw-shadow-color)] shadow-darkBg"
       >
         Hello, team!
       </p>
