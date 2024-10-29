@@ -129,7 +129,7 @@ function handleDialog(value: boolean) {
                     <SelectItem
                       v-for="data in todosPriorities"
                       :key="data.id"
-                      :value="String(data.id)"
+                      :value="data.id"
                     >
                       {{ data.description }}
                     </SelectItem>

@@ -37,6 +37,7 @@ export const useTodosStore = defineStore('todos', () => {
       'Add',
       todo.title,
     )
+    await fetchAllTodos()
   }
 
   const updateTodo = async (todo: TodosForm) => {
@@ -47,6 +48,7 @@ export const useTodosStore = defineStore('todos', () => {
         'Update',
         todo.title,
       )
+      await fetchAllTodos()
     }
   }
 
@@ -56,6 +58,7 @@ export const useTodosStore = defineStore('todos', () => {
       'Delete',
       todo.title,
     )
+    await fetchAllTodos()
   }
 
   const fetchAllTodos = async () => {
@@ -79,10 +82,13 @@ export const useTodosStore = defineStore('todos', () => {
       async () => {
         const { data, status } = await API.todo.getTodosById(id)
         if (status === 200) {
-          if (update) idTodoUpdate.value = data.id
+          if (update) {
+            idTodoUpdate.value = data.id
+            setDialog(true, update)
+          }
           form.value = {
             title: data.title,
-            priority: data.priority ? String(data.priority) : '1', // todo - fix with number
+            priority: data.priority,
             description: data.description,
           }
         }

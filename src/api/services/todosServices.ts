@@ -7,7 +7,7 @@ async function getTodos() {
 }
 
 async function getTodosById(id: number) {
-  return await http.get<TodosItem>(`/todos/${id}`)
+  return await http.get<TodosItem>(`/todo/${id}`)
 }
 
 async function addTodo(data: TodosForm) {

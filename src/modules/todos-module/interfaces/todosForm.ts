@@ -1,6 +1,6 @@
 interface TodosForm {
   title: string
-  priority: string
+  priority: number
   description: string
 }
 

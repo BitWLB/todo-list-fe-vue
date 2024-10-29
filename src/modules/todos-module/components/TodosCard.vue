@@ -19,11 +19,10 @@ defineProps<{
 
 const todosStore = useTodosStore()
 const { todosPriorities } = toRefs(todosStore)
-const { setDialog, fetchTodoDetailsWithId, deleteTodo } = todosStore
+const { fetchTodoDetailsWithId, deleteTodo } = todosStore
 
 async function handleDialog(isOpen: boolean, id: number) {
   await fetchTodoDetailsWithId(id, true)
-  setDialog(isOpen, true)
 }
 
 async function handleDelete(todo: TodosItem) {
