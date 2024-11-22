@@ -37,7 +37,7 @@ import { useTodosStore } from '@/modules/todos-module/store/todosStore'
 import { todoFormSchema } from '@/modules/todos-module/schema/todosSchema'
 
 const todosStore = useTodosStore()
-const { dialogTodos, isEdit, form } = toRefs(todosStore)
+const { dialogTodos, isUpdate, form } = toRefs(todosStore)
 const { setDialog, submitForm, todosPriorities } = todosStore
 
 const { isFieldDirty, handleSubmit, setValues, resetForm } = useForm({
@@ -79,10 +79,10 @@ function handleDialog(value: boolean) {
 
     <DialogScrollContent class="w-11/12 sm:max-w-[450px] space-y-4">
       <DialogHeader>
-        <DialogTitle> {{ isEdit ? `Edit` : `Add` }} Todo </DialogTitle>
+        <DialogTitle> {{ isUpdate ? `Edit` : `Add` }} Todo </DialogTitle>
 
         <DialogDescription>
-          {{ isEdit ? `Edit` : `Add` }} your todo here. Click save when you're
+          {{ isUpdate ? `Edit` : `Add` }} your todo here. Click save when you're
           done.
         </DialogDescription>
       </DialogHeader>
@@ -118,7 +118,13 @@ function handleDialog(value: boolean) {
             <FormLabel>Priority</FormLabel>
 
             <FormControl>
-              <Select v-bind="componentField">
+              <Select
+                v-bind="componentField"
+                :modelValue="String(componentField.modelValue)"
+                @update:modelValue="
+                  newValue => (componentField.modelValue = String(newValue))
+                "
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select a Priority" />
                 </SelectTrigger>
@@ -129,7 +135,7 @@ function handleDialog(value: boolean) {
                     <SelectItem
                       v-for="data in todosPriorities"
                       :key="data.id"
-                      :value="data.id"
+                      :value="String(data.id)"
                     >
                       {{ data.description }}
                     </SelectItem>

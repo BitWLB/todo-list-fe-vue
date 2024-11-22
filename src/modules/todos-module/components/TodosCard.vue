@@ -39,8 +39,8 @@ async function handleDelete(todo: TodosItem) {
 
       <CardDescription class="capitalize">
         {{
-          todosPriorities.find(v => v.id === Number(todosItem.priority))
-            ?.description || `- Can't find priority -`
+          todosPriorities.find(v => v.id === todosItem.priority)?.description ||
+          `- Can't find priority -`
         }}
       </CardDescription>
 
