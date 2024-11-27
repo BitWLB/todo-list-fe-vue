@@ -21,7 +21,7 @@ onMounted(async () => {
       <p
         class="text-2xl md:text-3xl font-bold text-main drop-shadow-[1.5px_1.5px_var(--tw-shadow-color)] shadow-darkBg"
       >
-        Hello, team!
+        Hello, Dude!
       </p>
       <p class="text-2xl md:text-3xl font-bold text-text dark:text-darkText">
         You've got {{ dataTodos.length }} tasks today
